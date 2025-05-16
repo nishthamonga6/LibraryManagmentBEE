@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error - {{error}}</title>
+</head>
+<body>
+    <div class="container">
+        <div class="error-container">
+            <div class="error-content">
+                <i class="fas fa-exclamation-circle error-icon"></i>
+                <h1>{{error}}</h1>
+                {{#if message}}
+                    <p class="error-message">{{message}}</p>
+                {{/if}}
+                <div class="error-actions">
+                    <a href="/books" class="btn btn-primary">
+                        <i class="fas fa-home"></i> Return to Home
+                    </a>
+                    <button onclick="window.history.back()" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Go Back
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    .error-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+        padding: 2rem;
+    }
+
+    .error-content {
+        text-align: center;
+        background: var(--bg-secondary);
+        padding: 3rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        max-width: 500px;
+        width: 100%;
+    }
+
+    .error-icon {
+        font-size: 4rem;
+        color: var(--danger);
+        margin-bottom: 1.5rem;
+    }
+
+    .error-message {
+        color: var(--text-secondary);
+        margin: 1.5rem 0;
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+
+    .error-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+        font-size: 1rem;
+    }
+
+    .btn-primary {
+        background: var(--accent-primary);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        border: 1px solid var(--text-secondary);
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+    </style>
+</body>
+</html> 

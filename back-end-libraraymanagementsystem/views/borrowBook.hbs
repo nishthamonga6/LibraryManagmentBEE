@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Borrow Book</title>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Borrow Book</h1>
+        </div>
+
+        <!-- Borrow Book Form -->
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-hand-holding"></i> Borrow Book</h2>
+            </div>
+            
+            <div class="book-details">
+                <h3>{{book.title}}</h3>
+                <div class="book-info">
+                    <p><i class="fas fa-user"></i> Author: {{book.author}}</p>
+                    <p><i class="fas fa-barcode"></i> ISBN: {{book.isbn}}</p>
+                    <p><i class="fas fa-books"></i> Available: {{book.availableQuantity}}/{{book.quantity}}</p>
+                    <div class="book-summary">
+                        <p><i class="fas fa-info-circle"></i> Summary:</p>
+                        <p class="summary-text">{{book.summary}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <form action="/books/borrow/{{book._id}}" method="POST" class="form-grid" id="borrowForm">
+                <div class="form-group">
+                    <label for="borrowerName">Borrower Name <span class="required">*</span></label>
+                    <input type="text" 
+                           id="borrowerName" 
+                           name="borrowerName" 
+                           class="form-control" 
+                           placeholder="Enter your name"
+                           minlength="2"
+                           maxlength="50"
+                           pattern="[A-Za-z\s]+"
+                           title="Please enter a valid name (letters and spaces only)"
+                           required>
+                    <small class="form-text">Enter your full name as it will appear in the library records.</small>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-hand-holding"></i> Confirm Borrow
+                    </button>
+                    <a href="/books" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Books
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('borrowForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const borrowerName = document.getElementById('borrowerName').value.trim();
+        
+        if (!borrowerName) {
+            alert('Please enter your name');
+            return false;
+        }
+        
+        if (borrowerName.length < 2) {
+            alert('Name must be at least 2 characters long');
+            return false;
+        }
+        
+        if (!/^[A-Za-z\s]+$/.test(borrowerName)) {
+            alert('Name can only contain letters and spaces');
+            return false;
+        }
+        
+        this.submit();
+    });
+    </script>
+
+    <style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .card {
+        background: var(--bg-secondary);
+        border-radius: 1rem;
+        padding: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-details {
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #404040;
+    }
+
+    .book-info {
+        margin-top: 1rem;
+    }
+
+    .book-info p {
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .form-text {
+        color: var(--text-secondary);
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+
+    .form-grid {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .required {
+        color: var(--danger);
+        margin-left: 0.25rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #404040;
+        border-radius: 0.5rem;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-size: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+        box-shadow: 0 0 0 2px rgba(var(--accent-primary-rgb), 0.2);
+    }
+
+    .form-control::placeholder {
+        color: var(--text-secondary);
+    }
+
+    .book-summary {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #404040;
+    }
+
+    .summary-text {
+        color: var(--text-secondary);
+        font-style: italic;
+        margin-top: 0.5rem;
+        line-height: 1.4;
+    }
+
+    .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: none;
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background: var(--accent-primary);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        border: 1px solid var(--text-secondary);
+    }
+
+    .btn:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
+    }
+    </style>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library - Books</title>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Library Collection</h1>
+            <a href="/books/add" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Add New Book
+            </a>
+        </div>
+
+        <!-- Statistics Section -->
+        <div class="stats-grid">
+            <div class="stat-item">
+                <i class="fas fa-book"></i>
+                <div class="stat-info">
+                    <h3>Total Books</h3>
+                    <p class="stat-value">{{totalBooks}}</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-book-reader"></i>
+                <div class="stat-info">
+                    <h3>Borrowed</h3>
+                    <p class="stat-value">{{borrowedBooks}}</p>
+                </div>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-book-open"></i>
+                <div class="stat-info">
+                    <h3>Available</h3>
+                    <p class="stat-value">{{availableBooks}}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters Section -->
+        <div class="card">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="sortBy">Sort By:</label>
+                    <select id="sortBy" class="form-control" onchange="sortBooks(this.value)">
+                        <option value="title" {{#if (eq selectedSort "title")}}selected{{/if}}>Title</option>
+                        <option value="author" {{#if (eq selectedSort "author")}}selected{{/if}}>Author</option>
+                        <option value="available" {{#if (eq selectedSort "available")}}selected{{/if}}>Availability</option>
+                        <option value="added" {{#if (eq selectedSort "added")}}selected{{/if}}>Recently Added</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Books Grid -->
+        <div class="books-grid">
+            {{#if books.length}}
+                {{#each books}}
+                    <div class="book-card">
+                        <div class="book-status">
+                            {{#if this.availableQuantity}}
+                                <span class="badge badge-success">Available</span>
+                            {{else}}
+                                <span class="badge badge-danger">Not Available</span>
+                            {{/if}}
+                        </div>
+                        <h3>{{this.title}}</h3>
+                        <div class="book-info">
+                            <p><i class="fas fa-user"></i> {{this.author}}</p>
+                            <p><i class="fas fa-barcode"></i> {{this.isbn}}</p>
+                            <p><i class="fas fa-books"></i> {{this.availableQuantity}}/{{this.quantity}} copies</p>
+                            <div class="book-summary">
+                                <p><i class="fas fa-info-circle"></i> Summary:</p>
+                                <p class="summary-text">{{this.summary}}</p>
+                            </div>
+                            {{#if this.borrowedBy}}
+                                <div class="borrower-info">
+                                    <p><i class="fas fa-user"></i> Borrowed by: {{this.borrowedBy}}</p>
+                                </div>
+                            {{/if}}
+                        </div>
+                        <div class="book-actions">
+                            {{#if this.availableQuantity}}
+                                <a href="/books/borrow/{{this._id}}" class="btn btn-primary">
+                                    <i class="fas fa-hand-holding"></i> Borrow
+                                </a>
+                            {{/if}}
+                            {{#if this.borrowedBy}}
+                                <form action="/books/return/{{this._id}}" method="POST" class="return-form">
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-undo"></i> Return
+                                    </button>
+                                </form>
+                            {{/if}}
+                        </div>
+                    </div>
+                {{/each}}
+            {{else}}
+                <div class="empty-state">
+                    <i class="fas fa-books"></i>
+                    <h3>No Books Found</h3>
+                    <p>{{#if searchQuery}}No results found for "{{searchQuery}}"{{else}}Try adding some books to your library{{/if}}</p>
+                    <a href="/books/add" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Book
+                    </a>
+                </div>
+            {{/if}}
+        </div>
+    </div>
+
+    <script>
+    function sortBooks(sortBy) {
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('sort', sortBy);
+        window.location.href = currentUrl.toString();
+    }
+    </script>
+
+    <style>
+    .filters {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        padding: 1rem;
+    }
+
+    .filter-group {
+        flex: 1;
+        min-width: 200px;
+    }
+
+    .borrower-info {
+        margin-top: 1rem;
+        padding: 0.5rem;
+        background: var(--bg-secondary);
+        border-radius: 0.25rem;
+    }
+
+    .borrower-info p {
+        margin: 0;
+        color: var(--accent-primary);
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--accent-primary);
+    }
+
+    .book-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        background: var(--bg-secondary);
+        border-radius: 1rem;
+        margin: 2rem 0;
+    }
+
+    .empty-state i {
+        font-size: 4rem;
+        color: var(--accent-primary);
+        margin-bottom: 1rem;
+    }
+
+    .book-summary {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #404040;
+    }
+
+    .summary-text {
+        color: var(--text-secondary);
+        font-style: italic;
+        margin-top: 0.5rem;
+        line-height: 1.4;
+    }
+    </style>
+</body>
+</html> 

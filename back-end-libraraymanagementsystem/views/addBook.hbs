@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add New Book</title>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>Add New Book</h1>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2><i class="fas fa-plus"></i> Add New Book</h2>
+            </div>
+            <form action="/books/add" method="POST" class="form-grid">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" id="title" name="title" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="author">Author</label>
+                    <input type="text" id="author" name="author" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="isbn">ISBN</label>
+                    <input type="text" id="isbn" name="isbn" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity">Quantity</label>
+                    <input type="number" id="quantity" name="quantity" class="form-control" min="1" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="summary">Book Summary</label>
+                    <textarea id="summary" name="summary" class="form-control" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Book
+                    </button>
+                    <a href="/books" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Books
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <style>
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        grid-column: 1 / -1;
+    }
+
+    .card-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .card-header h2 {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #404040;
+        border-radius: 0.5rem;
+        background: var(--bg-primary);
+        color: var(--text-primary);
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    .full-width {
+        grid-column: 1 / -1;
+    }
+    </style>
+</body>
+</html>
